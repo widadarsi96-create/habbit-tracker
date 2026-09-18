@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HABIT.</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- ================= AUTH SCREEN ================= -->
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="logo">HABIT.</div>
+      <h1 id="authTitle">Masuk</h1>
+      <p id="authDescription">Lanjutkan progres habit Anda.</p>
+
+      <form id="authForm">
+        <input type="email" id="authEmail" placeholder="Email" required />
+        <input type="password" id="authPassword" placeholder="Password" required minlength="6" />
+        <button type="submit" id="authSubmit">Masuk</button>
+      </form>
+
+      <p id="authMessage" class="auth-message"></p>
+      <button type="button" id="authSwitch" class="link-btn">Belum punya akun? Daftar</button>
+    </div>
+  </div>
+
+  <!-- ================= MAIN APP ================= -->
+  <div id="app" class="app hidden">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo-small">HABIT.</div>
+        <div class="user-info">
+          <span id="userEmail"></span>
+        </div>
+      </div>
+      <div class="header-right">
+        <button id="logoutBtn" class="btn-ghost">Keluar</button>
+      </div>
+    </header>
+
+    <!-- Date & Score Summary -->
+    <section class="summary-section">
+      <div class="date-block">
+        <div class="date-badge" id="dateBadge">TODAY</div>
+        <h2 id="currentDate">—</h2>
+        <input type="date" id="datePicker" class="date-picker" />
+      </div>
+
+      <div class="score-block">
+        <div class="progress-ring">
+          <div class="progress-inner">
+            <span id="percentage">0%</span>
+          </div>
+        </div>
+        <div class="score-details">
+          <div class="score-main">
+            <span id="totalScore">0</span>
+            <small>base points</small>
+          </div>
+          <div class="score-bonus">
+            Bonus <span id="bonusScore">+0</span>
+          </div>
+          <p id="scoreDescription" class="score-desc">Belum ada data hari ini.</p>
+          <p class="active-info"><span id="activeCount">0</span> habit aktif</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="nav">
+      <button class="nav-item active" data-section="habitsSection">Habits</button>
+      <button class="nav-item" data-section="bonusSection">Bonus</button>
+      <button class="nav-item" data-section="calendarSection">Kalender</button>
+      <button class="nav-item" data-section="settingsSection">Pengaturan</button>
+    </nav>
+
+    <!-- Habits -->
+    <section id="habitsSection" class="section">
+      <h3 class="section-title">Habit Hari Ini</h3>
+      <div id="habitContainer" class="habit-grid"></div>
+    </section>
+
+    <!-- Bonus -->
+    <section id="bonusSection" class="section">
+      <h3 class="section-title">Bonus Inisiatif (+2)</h3>
+      <p class="section-desc">Klik jika kamu melakukan inisiatif di luar target utama.</p>
+      <div class="bonus-row">
+        <button class="bonus-btn" data-bonus="study_init">📚 Inisiatif Belajar</button>
+        <button class="bonus-btn" data-bonus="exercise_init">🏃 Inisiatif Olahraga</button>
+      </div>
+    </section>
+
+    <!-- Daily Note -->
+    <section class="section">
+      <h3 class="section-title">Catatan Hari Ini</h3>
+      <textarea id="dailyNote" placeholder="Tulis refleksi singkat..." rows="3"></textarea>
+      <button id="saveDay" class="btn-primary">Simpan Catatan</button>
+    </section>
+
+    <!-- Calendar -->
+    <section id="calendarSection" class="section">
+      <h3 class="section-title">28 Hari Terakhir</h3>
+      <div id="calendar" class="calendar"></div>
+    </section>
+
+    <!-- Settings -->
+    <section id="settingsSection" class="section">
+      <h3 class="section-title">Pengaturan</h3>
+
+      <div class="setting-card">
+        <label for="sleepTarget">Target Tidur</label>
+        <select id="sleepTarget">
+          <option value="22:00">22:00</option>
+          <option value="23:00">23:00</option>
+          <option value="00:00">00:00</option>
+          <option value="01:00">01:00</option>
+          <option value="02:00">02:00</option>
+        </select>
+        <p class="setting-hint">Skor dihitung relatif terhadap target ini (termasuk lewat tengah malam).</p>
+      </div>
+
+      <div class="setting-card">
+        <h4>Panduan Skor</h4>
+        <div id="targetPreview" class="target-preview"></div>
+      </div>
+    </section>
+
+    <!-- Chart placeholder -->
+    <section class="section">
+      <h3 class="section-title">Progress 28 Hari</h3>
+      <canvas id="progressChart" height="180"></canvas>
+    </section>
+
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
